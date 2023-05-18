@@ -3,11 +3,22 @@ const startEl = document.getElementById('start');
 const stopEl = document.getElementById('stop');
 const resetEl = document.getElementById('reset');
 const btnEl = document.querySelectorAll('.btn');
+const inputEl = document.getElementById('input');
 
 let interval;
-let timeLeft = 10;
-let mainTime = timeLeft;
+let timeLeft;
 
+function collectInputValue() {
+	if (inputEl.value === '') {
+		timeLeft = 5;
+	} else {
+		timeLeft = parseInt(inputEl.value);
+	}
+}
+
+collectInputValue();
+let mainTime = timeLeft;
+console.log(inputEl.value);
 function addAndRemoveActive(element) {
 	btnEl.forEach((btn) => {
 		btn.classList.remove('active');
@@ -29,7 +40,12 @@ function handleStart() {
 	handleStop();
 	addAndRemoveActive(startEl);
 	interval = setInterval(() => {
-		if (timeLeft < 1) return;
+		if (timeLeft < 1) {
+			handleStop();
+			handleReset();
+			alert('Time to take a breake!');
+			return;
+		}
 		timeLeft--;
 		formattedOutput();
 	}, 1000);
