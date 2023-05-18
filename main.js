@@ -6,6 +6,7 @@ const btnEl = document.querySelectorAll('.btn');
 
 let interval;
 let timeLeft = 10;
+let mainTime = timeLeft;
 
 function addAndRemoveActive(element) {
 	btnEl.forEach((btn) => {
@@ -25,6 +26,7 @@ function formattedOutput() {
 	timerEl.innerHTML = `${formatTime(minutes)} : ${formatTime(seconds)}`;
 }
 function handleStart() {
+	handleStop();
 	addAndRemoveActive(startEl);
 	interval = setInterval(() => {
 		if (timeLeft < 1) return;
@@ -35,10 +37,14 @@ function handleStart() {
 
 function handleStop() {
 	addAndRemoveActive(stopEl);
+	clearInterval(interval);
 }
 
 function handleReset() {
 	addAndRemoveActive(resetEl);
+	handleStop();
+	timeLeft = mainTime;
+	formattedOutput();
 }
 
 startEl.addEventListener('click', handleStart);
